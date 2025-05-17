@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monitoring - Borrowed Books</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+      background: #222244;
+      color: #e0e0ff;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 900;
+      text-shadow: 0 0 8px #4444cc;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      max-height: 400px;
+      overflow-y: auto;
+      border-top: 1px solid #5555aa;
+    }
+    li {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid #444488;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 5px rgba(100,100,255,0.3);
+    }
+    .nav-link {
+      margin-top: 1.2rem;
+      text-align: center;
+    }
+    .nav-link a {
+      color: #ccccff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .nav-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Borrowed Books Monitoring</h1>
+  <ul id="monitorList" aria-live="polite" aria-relevant="additions removals"></ul>
+
+  <div class="nav-link">
+    <a href="User.html">Back</a><br/>
+  </div>
+
+<script>
+  (function() {
+    const STORAGE_BORROWED = 'borrowedBooks';
+    const monitorListEl = document.getElementById('monitorList');
+
+    let borrowedBooks = JSON.parse(localStorage.getItem(STORAGE_BORROWED)) || [];
+
+    function render() {
+      monitorListEl.innerHTML = '';
+      if(borrowedBooks.length === 0){
+        monitorListEl.textContent = 'No books currently borrowed.';
+        return;
+      }
+      borrowedBooks.forEach(book => {
+        const li = document.createElement('li');
+        li.textContent = book.title;
+        monitorListEl.appendChild(li);
+      });
+    }
+
+    window.addEventListener('storage', e => {
+      if(e.key === STORAGE_BORROWED){
+        borrowedBooks = JSON.parse(e.newValue) || [];
+        render();
+      }
+    });
+
+    render();
+  })();
+</script>
+
+</body>
+</html>

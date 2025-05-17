@@ -1,0 +1,123 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  body{
+    font-family: Sans-Serif;
+    display: flex;
+    flex-direction: row;
+    background-color: aliceblue;
+  }
+  
+  .sidebar{
+    padding: 20px;
+    background-color: lightcoral;
+    width: 300px;
+    min-height: 100vh;
+    border-radius: 0 30px 0 30px;
+  }
+  
+  .sidebar-header{
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .sidebar h2{
+   font-size: 24px;
+   margin-bottom: 40px;
+  }
+  
+  .sidebar nav ul{
+    list-style: none;
+  }
+  
+  .sidebar nav ul li a{
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    width: 10px;
+  }
+  
+  .sidebar nav ul li a:hover{
+    text-decoration: underline;
+  }
+  
+  .dashboar{
+    flex-grow: 1;
+    padding: 30px;
+  }
+  
+  .dashboard-header{
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .dashboard-header h1{
+    font-size: 30px;
+    color: black;
+    margin-left: 0;
+  }
+  Ja replied to themself
+  *{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  body{
+    font-family: Sans-Serif;
+    display: flex;
+    flex-direction: row;
+    background-color: aliceblue;
+  }
+  
+  .sidebar{
+    padding: 20px;
+    background-color: lightcoral;
+    width: 300px;
+    min-height: 100vh;
+    border-radius: 0 30px 0 30px;
+  }
+  
+  .sidebar-header{
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .sidebar h2{
+   font-size: 24px;
+   margin-bottom: 40px;
+  }
+  
+  .sidebar nav ul{
+    list-style: none;
+  }
+  
+  .sidebar nav ul li a{
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    width: 10px;
+  }
+  
+  .sidebar nav ul li a:hover{
+    text-decoration: underline;
+  }
+  
+  .dashboar{
+    flex-grow: 1;
+    padding: 30px;
+  }
+  
+  .dashboard-header{
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .dashboard-header h1{
+    font-size: 30px;
+    color: black;
+    margin-left: 0;
+  }

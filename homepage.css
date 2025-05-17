@@ -1,0 +1,36 @@
+body{
+    background-color: whitesmoke;
+}
+header{
+  background-color: darkgray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: whitesmoke;
+  align-items: center;
+  padding: 15px;
+}
+ul{
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 20px;
+  margin-right: 40px;
+  margin-left: 40px;
+}
+.con2{
+  background-color: darkcyan;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+  color: whitesmoke;
+  gap: 20px;
+}
+p{
+  font-size: 200%;
+}
+h2{
+  font-size: 500%;
+}

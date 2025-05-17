@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book List</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: lightblue;
+      margin: 0;
+      padding: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #1a237e;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      max-height: 400px;
+      overflow-y: auto;
+      border-top: 1px solid #ddd;
+    }
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid #eee;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.3rem 0.9rem;
+      font-weight: 600;
+      border: none;
+      background-color: blue;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background-color: lightblue;
+    }
+    .nav-link {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .nav-link a {
+      color: #3949ab;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .nav-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Available Books</h1>
+<ul id="bookList" aria-live="polite" aria-relevant="additions removals"></ul>
+
+<div class="nav-link">
+  <a href="User.html">Back</a>
+</div>
+
+<script>
+  (function(){
+    const STORAGE_AVAILABLE = 'availableBooks';
+    const STORAGE_BORROWED = 'borrowedBooks';
+    const bookListEl = document.getElementById('bookList');
+
+    let availableBooks = JSON.parse(localStorage.getItem(STORAGE_AVAILABLE)) || [
+      {id: 'b1', title: 'The Great Gatsby'},
+      {id: 'b2', title: '1984'},
+      {id: 'b3', title: 'To Kill a Mockingbird'}
+    ];
+    let borrowedBooks = JSON.parse(localStorage.getItem(STORAGE_BORROWED)) || [];
+
+    function save() {
+      localStorage.setItem(STORAGE_AVAILABLE, JSON.stringify(availableBooks));
+      localStorage.setItem(STORAGE_BORROWED, JSON.stringify(borrowedBooks));
+    }
+
+    function render() {
+      bookListEl.innerHTML = '';
+      if(availableBooks.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'No available books.';
+        bookListEl.appendChild(li);
+        return;
+      }
+      availableBooks.forEach(book => {
+        const li = document.createElement('li');
+        li.textContent = book.title;
+        li.setAttribute('tabindex', '0');
+
+        const borrowBtn = document.createElement('button');
+        borrowBtn.textContent = 'Borrow';
+        borrowBtn.setAttribute('aria-label',` Borrow ${book.title}`);
+        borrowBtn.addEventListener('click', () => borrowBook(book.id));
+
+        li.appendChild(borrowBtn);
+        bookListEl.appendChild(li);
+      });
+    }
+
+    function borrowBook(bookId) {
+      const index = availableBooks.findIndex(b => b.id === bookId);
+      if(index === -1) return;
+
+      const [book] = availableBooks.splice(index,1);
+      borrowedBooks.push(book);
+      save();
+      render();
+    }
+
+    window.addEventListener('storage', (e) => {
+      if(e.key === STORAGE_AVAILABLE) {
+        availableBooks = JSON.parse(e.newValue) || [];
+        render();
+      }
+      if(e.key === STORAGE_BORROWED) {
+        borrowedBooks = JSON.parse(e.newValue) || [];
+      }
+    });
+
+    render();
+
+  })();
+</script>
+
+</body>
+</html>

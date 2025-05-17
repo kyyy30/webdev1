@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Borrowing Books</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: lightblue;
+      margin: 0;
+      padding: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #1a237e;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      max-height: 400px;
+      overflow-y: auto;
+      border-top: 1px solid #ddd;
+    }
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid #eee;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.3rem 0.9rem;
+      font-weight: 600;
+      border: none;
+      background-color: #f44336;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background-color: #b71c1c;
+    }
+    .nav-link {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .nav-link a {
+      color: #3949ab;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .nav-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Borrowing Books</h1>
+<ul id="borrowList" aria-live="polite" aria-relevant="additions removals"></ul>
+
+<div class="nav-link">
+  <a href="User.html">Back</a>
+</div>
+
+<script>
+  (function(){
+    const STORAGE_AVAILABLE = 'availableBooks';
+    const STORAGE_BORROWED = 'borrowedBooks';
+    const borrowListEl = document.getElementById('borrowList');
+
+    let availableBooks = JSON.parse(localStorage.getItem(STORAGE_AVAILABLE)) || [];
+    let borrowedBooks = JSON.parse(localStorage.getItem(STORAGE_BORROWED)) || [];
+
+    function save() {
+      localStorage.setItem(STORAGE_AVAILABLE, JSON.stringify(availableBooks));
+      localStorage.setItem(STORAGE_BORROWED, JSON.stringify(borrowedBooks));
+    }
+
+    function render() {
+      borrowListEl.innerHTML = '';
+      if(borrowedBooks.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'No borrowed books.';
+        borrowListEl.appendChild(li);
+        return;
+      }
+      borrowedBooks.forEach(book => {
+        const li = document.createElement('li');
+        li.textContent = book.title;
+        li.setAttribute('tabindex', '0');
+
+        const returnBtn = document.createElement('button');
+        returnBtn.textContent = 'Return';
+        returnBtn.setAttribute('aria-label', `Return ${book.title}`);
+        returnBtn.addEventListener('click', () => returnBook(book.id));
+
+        li.appendChild(returnBtn);
+        borrowListEl.appendChild(li);
+      });
+    }
+
+    function returnBook(bookId) {
+      const index = borrowedBooks.findIndex(b => b.id === bookId);
+      if(index === -1) return;
+
+      const [book] = borrowedBooks.splice(index,1);
+      availableBooks.push(book);
+      save();
+      render();
+    }
+
+    window.addEventListener('storage', (e) => {
+      if(e.key === STORAGE_BORROWED) {
+        borrowedBooks = JSON.parse(e.newValue) || [];
+        render();
+      }
+      if(e.key === STORAGE_AVAILABLE) {
+        availableBooks = JSON.parse(e.newValue) || [];
+      }
+    });
+
+    render();
+
+  })();
+</script>
+
+</body>
+</html>
