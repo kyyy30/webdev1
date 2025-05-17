@@ -12,7 +12,7 @@ function login(){
   if(uname != ""&& pass != ""){
     if(uname == username && pass == password){
       alert("Successful Login")
-      window.location.href="Admin.html";
+      window.location.href="admin.html";
     }
     else if(uname == user && pass == pass){
       alert("Successful Login")
